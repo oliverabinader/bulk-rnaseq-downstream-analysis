@@ -11,14 +11,10 @@ library(dplyr)
 # =========================
 
 input_file <- "/path/to/tpm_matrix.csv"
-output_file <- "results/p53_heatmap.tiff"
+output_file <- "results/p53_heatmap.html"
 
-# Define p53 target genes
-genes <- c(
-  "DUSP5","GADD45A","FBXO32","PRDM1","E2F7","CDKN1A","ATF3","PMAIP1",
-  "TEP1","CSNK1G1","TP53INP1","CPEB4","BBC3","PLEKHF1","YPEL3",
-  "DNAJB2","TRIML2","NUPR1"
-)
+# Read in the p53 target genes
+genes <- readLines("data/gene_sets/p53_targets.txt")
 
 # =========================
 # Load data
@@ -44,6 +40,7 @@ tpm_log <- log2(tpm_subset + 1)
 # Generate heatmap
 # =========================
 
+# OPTION 1: Heatmaply without ggsave
 heatmaply(
   as.matrix(tpm_log),
   scale = "row",
@@ -55,16 +52,17 @@ heatmaply(
   file = output_file
 )
 
-ggsave(
-    filename = output_file,
-    plot = p,
-    device = "tiff",
-    width = 6,
-    height = 4,
-    units = "in",
-    dpi = 350,
-    compression = "lzw"
-  )
+# OTPION 2: Pheatmap with .tiff extension
+pheatmap::pheatmap(
+  as.matrix(tpm_log),
+  scale = "row",
+  cluster_rows = TRUE,
+  cluster_cols = FALSE,
+  color = colorRampPalette(c("blue", "white", "red"))(100),
+  filename = "results/p53_heatmap.tiff",
+  width = 6,
+  height = 8
+)
 
 # =========================
 # Notes:
