@@ -20,11 +20,11 @@ library(ggplot2)
 # User-defined inputs
 # ============================================
 
-p53_file <- "data/gene_sets/p53_targets.txt"
+p53_file <- "data/gene_sets/p53_targets_reference.txt"
 
-de_file <- "data/example_input/DE_results.xlsx"
+de_file <- "/path/to/DE_results.xlsx"
 
-tpm_file <- "data/example_input/tpm_matrix.csv"
+tpm_file <- "/path/to/tpm_matrix.csv"
 
 output_dir <- "results/"
 
@@ -48,8 +48,10 @@ de_list <- lapply(sheets, function(sheet) {
   as.data.frame(read_excel(de_file, sheet = sheet))
 })
 
+# Note: For each sheet name in the list, open that Excel sheet, convert it to a data frame, and store it in a list.
+
 # ============================================
-# Filter DEGs
+# Filter DEGs (Can customzie the FC cut-off)
 # ============================================
 
 filter_deg <- function(df, fc_thresh = 0.585, fdr_thresh = 0.05) {
@@ -102,14 +104,14 @@ heatmaply(
   showticklabels = c(TRUE, TRUE),
   column_text_angle = 90,
   col = colorRampPalette(c("blue", "white", "red"))(100),
-  file = file.path(output_dir, "overlap_heatmap.html")
+  file = file.path(output_dir, "p53_target_gene_overlap_heatmap_CA46_SU6.html")
 )
 
 # ============================================
 # Correlation analysis
 # ============================================
 
-# Example: SU6 comparison between treatments
+# Example: SU6 comparison between treatments (same for the other cell line)
 
 df1 <- de_list$SU6_30
 df2 <- de_list$SU6_228
@@ -134,7 +136,7 @@ print(cor_result)
 # Plot correlation
 # ============================================
 
-p <- ggplot(common_genes_df, aes(x = log2FC_1, y = log2FC_2)) +
+plot <- ggplot(common_genes_df, aes(x = log2FC_1, y = log2FC_2)) +
   geom_point(color = "orange", size = 3) +
   geom_smooth(method = "lm", se = FALSE, color = "black") +
   theme_bw() +
@@ -145,15 +147,12 @@ p <- ggplot(common_genes_df, aes(x = log2FC_1, y = log2FC_2)) +
   )
 
 ggsave(
-  filename = file.path(output_dir, "correlation_plot.tiff"),
-  plot = p,
-  width = 6,
-  height = 4,
-  dpi = 300
-)
-
-# ============================================
-# Notes:
-# - Overlap ensures robust gene selection
-# - Correlation assesses consistency between conditions
-# ============================================
+    filename = file.path(output_dir, "SU6_log2FC_correlation_30vs228.tiff"),
+    plot = plot,
+    device = "tiff",
+    width = 8,
+    height = 6,
+    units = "in",
+    dpi = 350,
+    compression = "lzw"
+  )
