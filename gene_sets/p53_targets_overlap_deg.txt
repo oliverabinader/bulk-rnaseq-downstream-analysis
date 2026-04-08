@@ -1,4 +1,3 @@
-gene_symbol
 CDKN1A
 RRM2B
 MDM2
