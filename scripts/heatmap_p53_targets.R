@@ -14,7 +14,7 @@ input_file <- "/path/to/tpm_matrix.csv"
 output_file <- "results/p53_heatmap.html"
 
 # Read in the p53 target genes
-genes <- readLines("data/gene_sets/p53_targets.txt")
+genes <- readLines("data/gene_sets/p53_targets_reference.txt")
 
 # =========================
 # Load data
