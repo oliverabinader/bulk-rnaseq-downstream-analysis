@@ -1,54 +1,106 @@
 # Bulk RNA-seq Downstream Analysis
 
-**Author:** Oliver Abinader  
+**Author:** Oliver Abinader
+
 
 ## Overview
-This repository contains downstream analyses for bulk RNA-seq data, focusing on:
-- Heatmap visualization of selected gene sets (e.g., p53 target genes)
-- Robust Rank Aggregation (RRA) to identify genes consistently upregulated or downregulated across multiple conditions
 
-These analyses are designed to be modular and adaptable to different datasets.
+This repository contains modular downstream analysis workflows for bulk RNA-seq data.  
+The focus is on gene-level integration, visualization, and cross-condition comparison.
+
+Analyses include:
+- Gene set–based heatmaps (e.g., p53 target genes)
+- Robust Rank Aggregation (RRA) across multiple conditions
+- Identification of overlapping differentially expressed genes (DEGs)
+- Correlation analysis between treatment conditions
+
+
+## Analysis Workflow
+
+1. Differential expression results are imported from multiple conditions  
+2. Genes are filtered based on:
+   - log2 fold-change thresholds  
+   - adjusted p-value (FDR) cutoff  
+3. Overlapping gene sets (e.g., p53 target genes) are identified  
+4. Expression matrices are subset and visualized using heatmaps  
+5. Rank-based integration (RRA) is applied across datasets  
+6. Correlation analysis is performed between conditions to assess concordance  
 
 
 ## 📊 Analyses Included
 
-### 1. Heatmap of Target Genes
-- Visualizes expression of predefined gene sets
-- Uses TPM (or normalized counts)
-- Applies log transformation and row scaling
-- Generates an interactive heatmap
+### 1. Gene Set Heatmap Analysis
+
+Visualizes expression patterns of predefined gene sets.
+
+**Features:**
+- Uses TPM or normalized expression values
+- Log2 transformation applied
+- Row-wise scaling for visualization
+- Interactive heatmap output (HTML)
 
 ### 2. Robust Rank Aggregation (RRA)
-- Integrates multiple differential expression results
-- Identifies genes consistently:
-  - Upregulated
-  - Downregulated
-- Based on ranked log2 fold changes
 
-### 3. Overlapping p53 Target Gene Heatmap
-- Identifies significantly differentially expressed genes (DEGs)
-- Filters based on:
-  - log2FC threshold (e.g., ±0.585 ≈ 1.5-fold)
-  - adjusted p-value (FDR < 0.05)
-- Intersects DEGs across datasets and predefined gene sets
-- Generates heatmaps for overlapping genes
+Integrates multiple differential expression datasets to identify genes with consistent regulation.
+
+**Identifies:**
+- Consistently upregulated genes  
+- Consistently downregulated genes  
+
+**Approach:**
+- Genes are ranked by log2 fold-change within each dataset
+- RRA integrates ranked lists across conditions
+- Outputs statistically ranked gene lists
+
+### 3. Overlapping p53 Target Gene Analysis
+
+Identifies significantly differentially expressed p53-associated genes shared across conditions.
+
+**Steps:**
+- Filter DEGs using:
+  - |log2FC| ≥ 0.585 (≈ 1.5-fold change)
+  - FDR < 0.05
+- Intersect DEGs with curated p53 gene set
+- Identify genes shared across multiple datasets
+- Generate heatmaps of overlapping genes
 
 ### 4. Correlation Analysis Between Conditions
-- Computes Spearman correlation between log2 fold changes
-- Identifies concordance between treatments
-- Visualizes results using scatter plots with regression line
 
-## Input Requirements
+Assesses transcriptional concordance between treatment conditions.
 
-### Heatmap Input
-- CSV/TSV file with:
-  - `GeneSymbol` column
-  - Expression values (TPM or normalized counts)
+**Features:**
+- Spearman correlation of log2 fold-changes
+- Gene-level comparison between conditions
+- Scatter plot visualization with regression line
 
-### RRA Input
-- Differential expression files containing:
-  - `GeneSymbol`
-  - `log2FoldChange`
+
+## 📥 Input Data Requirements
+
+### Differential Expression (DE) Files
+Each dataset must contain:
+
+- `GeneSymbol`
+- `Geneid` (recommended)
+- `log2FoldChange`
+- `padj` (adjusted p-value)
+
+### Expression Matrix (TPM or normalized counts)
+
+- Rows = genes
+- Columns = samples/conditions
+- Must include `GeneSymbol` column
+
+### Gene Sets
+
+Example:
+- p53 target gene list (`.txt` file)
+
+
+## 📊 Outputs
+-  Heatmaps (HTML / TIFF)
+-  RRA ranked gene tables (CSV)
+-  Correlation plots (TIFF/PNG)
+-  Overlapping gene lists (TXT)
 
 
 ## Installation
@@ -56,11 +108,22 @@ These analyses are designed to be modular and adaptable to different datasets.
 install.packages(c("heatmaply", "RobustRankAggreg", "dplyr"))
 
 
-## Usage
-- Run Heatmap: source("scripts/heatmap_p53_targets.R")
-- Run RRA Analysis: source("scripts/RRA_analysis.R")
+## 📂 Repository Structure
 
-
-## ⚠️ Notes
-- Update file paths in scripts before running
-- Input data is not included due to size and/or confidentiality
+bulk-rnaseq-downstream-analysis/
+│
+├── scripts/
+│ ├── RRA_analysis.R
+│ ├── heatmap_p53_targets.R
+│ └── p53_overlap_and_correlation.R
+│
+├── gene_sets/
+│ ├── p53_targets_reference.txt
+│ └── p53_targets_overlap_deg.txt
+│
+├── results/
+│ ├── heatmaps/
+│ ├── correlation/
+│ └── rra/
+│
+└── README.md
