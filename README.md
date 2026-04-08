@@ -111,19 +111,15 @@ install.packages(c("heatmaply", "RobustRankAggreg", "dplyr"))
 ## 📂 Repository Structure
 
 bulk-rnaseq-downstream-analysis/
-│
-├── scripts/
-│ ├── RRA_analysis.R
-│ ├── heatmap_p53_targets.R
-│ └── p53_overlap_and_correlation.R
-│
-├── gene_sets/
-│ ├── p53_targets_reference.txt
-│ └── p53_targets_overlap_deg.txt
-│
-├── results/
-│ ├── heatmaps/
-│ ├── correlation/
-│ └── rra/
-│
-└── README.md
+- scripts/
+   - RRA_analysis.R
+   - heatmap_p53_targets.R
+   - p53_overlap_and_correlation.R
+- gene_sets/
+   - p53_targets_reference.txt
+   - p53_targets_overlap_deg.txt
+- results/
+   - heatmaps/
+   - correlation/
+   - rra/
+- README.md
