@@ -25,6 +25,18 @@ These analyses are designed to be modular and adaptable to different datasets.
   - Downregulated
 - Based on ranked log2 fold changes
 
+### 3. Overlapping p53 Target Gene Heatmap
+- Identifies significantly differentially expressed genes (DEGs)
+- Filters based on:
+  - log2FC threshold (e.g., ±0.585 ≈ 1.5-fold)
+  - adjusted p-value (FDR < 0.05)
+- Intersects DEGs across datasets and predefined gene sets
+- Generates heatmaps for overlapping genes
+
+### 4. Correlation Analysis Between Conditions
+- Computes Spearman correlation between log2 fold changes
+- Identifies concordance between treatments
+- Visualizes results using scatter plots with regression line
 
 ## Input Requirements
 
