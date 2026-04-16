@@ -13,7 +13,7 @@ Analyses include:
 - Robust Rank Aggregation (RRA) across multiple conditions
 - Identification of overlapping differentially expressed genes (DEGs)
 - Correlation analysis between treatment conditions
-
+- A Venn diagram-based module has also been added to identify overlapping DEGs across conditions
 
 ## Analysis Workflow
 
@@ -24,8 +24,8 @@ Analyses include:
 3. Overlapping gene sets (e.g., p53 target genes) are identified  
 4. Expression matrices are subset and visualized using heatmaps  
 5. Rank-based integration (RRA) is applied across datasets  
-6. Correlation analysis is performed between conditions to assess concordance  
-
+6. Correlation analysis is performed between conditions to assess concordance
+7. Identification of overlapping DEGs using Venn diagram analysis across conditions
 
 ## 📊 Analyses Included
 
@@ -73,6 +73,16 @@ Assesses transcriptional concordance between treatment conditions.
 - Gene-level comparison between conditions
 - Scatter plot visualization with regression line
 
+### 5. Overlapping DEG analysis (Venn diagram)
+
+**Steps:**
+- Differential expression results are used directly
+- Genes are filtered using:
+  - log2 fold-change thresholds
+  - adjusted p-value (FDR cutoff)
+- Upregulated and downregulated genes are separated
+- Overlaps across conditions are identified using Venn diagrams
+- Shared gene sets are exported for downstream analysis
 
 ## 📥 Input Data Requirements
 
@@ -101,7 +111,7 @@ Example:
 -  RRA ranked gene tables (CSV)
 -  Correlation plots (TIFF/PNG)
 -  Overlapping gene lists (TXT)
-
+-  Venn diagrams (PNG) and shared gene lists (Excel)
 
 ## Installation
 
@@ -115,6 +125,7 @@ bulk-rnaseq-downstream-analysis/
    - RRA_analysis.R
    - heatmap_p53_targets.R
    - p53_overlap_and_correlation.R
+   - Venn_DEG_analysis.R 
 - gene_sets/
    - p53_targets_reference.txt
    - p53_targets_overlap_deg.txt
