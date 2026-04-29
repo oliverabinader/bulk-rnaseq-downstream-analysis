@@ -40,6 +40,12 @@ tpm_log <- log2(tpm_subset + 1)
 # Generate heatmap
 # =========================
 
+# Optional: Sometimes, you may need to clean genes with zero variance between the samples, ensuring that only genes with meaningful variation are included.
+#data_matrix <- as.matrix(tpm_log)
+#zero_variance_rows <- apply(data_matrix, 1, function(row) var(row) == 0)
+#filtered_data_matrix <- data_matrix[!zero_variance_rows, ]
+#dim(filtered_data_matrix)
+
 # OPTION 1: Heatmaply without ggsave
 heatmaply(
   as.matrix(tpm_log),
@@ -64,8 +70,8 @@ pheatmap::pheatmap(
   height = 8
 )
 
-# =========================
+# ========================================================
 # Notes:
 # - Row scaling highlights relative expression differences
 # - Blue = low expression, Red = high expression
-# ============================================
+# ========================================================
